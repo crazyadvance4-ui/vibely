@@ -27,6 +27,7 @@
       border-bottom: 1px solid #ddd;
       position: sticky;
       top: 0;
+      z-index: 10;
     }
 
     .feed {
@@ -60,12 +61,44 @@
 
     .actions {
       padding: 14px;
+      display: flex;
+      gap: 18px;
+    }
+
+    .action-btn {
+      border: none;
+      background: none;
       font-size: 24px;
+      cursor: pointer;
+    }
+
+    .like-btn.liked {
+      color: red;
     }
 
     .caption {
       padding: 0 14px 15px;
       font-size: 16px;
+    }
+
+    .comments {
+      padding: 0 14px 15px;
+      display: none;
+    }
+
+    .comments input {
+      width: 75%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .comments button {
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #111;
+      color: white;
     }
 
     nav {
@@ -79,6 +112,14 @@
       justify-content: space-around;
       padding: 14px;
       font-size: 24px;
+      z-index: 10;
+    }
+
+    nav button {
+      border: none;
+      background: none;
+      font-size: 24px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -95,7 +136,15 @@
       <div class="video">▶️</div>
 
       <div class="actions">
-        ❤️ 💬 ↗️
+        <button class="action-btn like-btn" onclick="likePost(this)">❤️</button>
+        <button class="action-btn" onclick="toggleComments(this)">💬</button>
+        <button class="action-btn" onclick="sharePost()">↗️</button>
+      </div>
+
+      <div class="comments">
+        <input type="text" placeholder="Write a comment...">
+        <button onclick="addComment(this)">Send</button>
+        <div class="comment-list"></div>
       </div>
 
       <div class="caption">
@@ -109,7 +158,15 @@
       <div class="video">🎥</div>
 
       <div class="actions">
-        ❤️ 💬 ↗️
+        <button class="action-btn like-btn" onclick="likePost(this)">❤️</button>
+        <button class="action-btn" onclick="toggleComments(this)">💬</button>
+        <button class="action-btn" onclick="sharePost()">↗️</button>
+      </div>
+
+      <div class="comments">
+        <input type="text" placeholder="Write a comment...">
+        <button onclick="addComment(this)">Send</button>
+        <div class="comment-list"></div>
       </div>
 
       <div class="caption">
@@ -120,12 +177,50 @@
   </main>
 
   <nav>
-    🏠
-    🔍
-    ➕
-    ❤️
-    👤
+    <button onclick="alert('Home')">🏠</button>
+    <button onclick="alert('Search')">🔍</button>
+    <button onclick="alert('Create')">➕</button>
+    <button onclick="alert('Likes')">❤️</button>
+    <button onclick="alert('Profile')">👤</button>
   </nav>
+
+  <script>
+    function likePost(button) {
+      button.classList.toggle("liked");
+    }
+
+    function toggleComments(button) {
+      const comments = button.closest(".post").querySelector(".comments");
+      comments.style.display =
+        comments.style.display === "block" ? "none" : "block";
+    }
+
+    function addComment(button) {
+      const box = button.closest(".comments");
+      const input = box.querySelector("input");
+      const list = box.querySelector(".comment-list");
+
+      if (input.value.trim() !== "") {
+        const comment = document.createElement("p");
+        comment.textContent = "💬 " + input.value;
+        comment.style.marginTop = "8px";
+        list.appendChild(comment);
+        input.value = "";
+      }
+    }
+
+    function sharePost() {
+      if (navigator.share) {
+        navigator.share({
+          title: "Vibely",
+          text: "Check out this vibe on Vibely!",
+          url: window.location.href
+        });
+      } else {
+        alert("Share feature is not supported on this browser.");
+      }
+    }
+  </script>
 
 </body>
 </html>
