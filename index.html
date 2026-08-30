@@ -194,8 +194,17 @@
   </nav>
 
   <script>
-    function likePost(button) {
-      button.classList.toggle("liked");
+    async function likePost(button) {
+  button.classList.toggle("liked");
+
+  const post = button.closest(".post");
+
+  if (button.classList.contains("liked")) {
+    console.log("Like saved");
+  } else {
+    console.log("Like removed");
+  }
+    }
     }
 
     function toggleComments(button) {
@@ -235,4 +244,4 @@
   </script>
 
 </body>
-</html>
+  </html>
