@@ -195,17 +195,39 @@
 
   <script>
     async function likePost(button) {
+  const post = button.closest(".post");
+  const posts = document.querySelectorAll(".post");
+  const postId = Array.from(posts).indexOf(post) + 1;
+
   button.classList.toggle("liked");
 
-  const post = button.closest(".post");
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("likes")
+    .eq("id", postId)
+    .single();
 
-  if (button.classList.contains("liked")) {
-    console.log("Like saved");
-  } else {
-    console.log("Like removed");
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const newLikes = button.classList.contains("liked")
+    ? data.likes + 1
+    : Math.max(data.likes - 1, 0);
+
+  const { error: updateError } = await supabaseClient
+    .from("posts")
+    .update({ likes: newLikes })
+    .eq("id", postId);
+
+  if (updateError) {
+    console.error(updateError);
   }
     }
-    }
+  
+    
+    
 
     function toggleComments(button) {
       const comments = button.closest(".post").querySelector(".comments");
