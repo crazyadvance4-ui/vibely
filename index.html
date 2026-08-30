@@ -194,12 +194,10 @@
   </nav>
 
   <script>
-    async function likePost(button) {
+  async function likePost(button) {
   const post = button.closest(".post");
   const posts = document.querySelectorAll(".post");
   const postId = Array.from(posts).indexOf(post) + 1;
-
-  button.classList.toggle("liked");
 
   const { data, error } = await supabaseClient
     .from("posts")
@@ -212,9 +210,10 @@
     return;
   }
 
-  const newLikes = button.classList.contains("liked")
-    ? data.likes + 1
-    : Math.max(data.likes - 1, 0);
+  const currentlyLiked = button.classList.contains("liked");
+  const newLikes = currentlyLiked
+    ? Math.max((data.likes || 0) - 1, 0)
+    : (data.likes || 0) + 1;
 
   const { error: updateError } = await supabaseClient
     .from("posts")
@@ -223,8 +222,11 @@
 
   if (updateError) {
     console.error(updateError);
+    return;
   }
-    }
+
+  button.classList.toggle("liked");
+  }
   
     
     
