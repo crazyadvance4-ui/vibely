@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vibely</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -125,7 +124,7 @@
   </style>
 </head>
 
-<body>to 
+<body>
 
   <header>Vibely ✨</header>
 
@@ -192,6 +191,7 @@
 
     function toggleComments(button) {
       const comments = button.closest(".post").querySelector(".comments");
+
       comments.style.display =
         comments.style.display === "block" ? "none" : "block";
     }
@@ -203,8 +203,10 @@
 
       if (input.value.trim() !== "") {
         const comment = document.createElement("p");
+
         comment.textContent = "💬 " + input.value;
         comment.style.marginTop = "8px";
+
         list.appendChild(comment);
         input.value = "";
       }
