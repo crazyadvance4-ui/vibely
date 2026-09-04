@@ -3,15 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vibely</title>
-  <script>
-  const SUPABASE_URL = "https://uzggwbtibysgxyplyvoq.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_SSfmEuuSHJp0CNDnyVdFEg_qqXb2hat":
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  <title>Vibely</title>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://uzggwbtibysgxyplyvoq.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SSfmEuuSHJp0CNDnyVdFEg_qqXb2hat";
+
+    const supabaseClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
   </script>
 
   <style>
@@ -31,7 +36,7 @@
       background: white;
       padding: 16px;
       text-align: center;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: bold;
       border-bottom: 1px solid #ddd;
       position: sticky;
@@ -42,7 +47,7 @@
     .feed {
       max-width: 500px;
       margin: auto;
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
 
     .post {
@@ -55,6 +60,7 @@
 
     .user {
       padding: 14px;
+      font-size: 18px;
       font-weight: bold;
     }
 
@@ -65,19 +71,20 @@
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 50px;
+      font-size: 60px;
     }
 
     .actions {
       padding: 14px;
       display: flex;
       gap: 18px;
+      align-items: center;
     }
 
     .action-btn {
       border: none;
       background: none;
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
     }
 
@@ -85,9 +92,14 @@
       color: red;
     }
 
+    .like-count {
+      font-size: 15px;
+      margin-left: -10px;
+    }
+
     .caption {
       padding: 0 14px 15px;
-      font-size: 16px;
+      font-size: 17px;
     }
 
     .comments {
@@ -97,38 +109,43 @@
 
     .comments input {
       width: 75%;
-      padding: 8px;
+      padding: 9px;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
 
     .comments button {
-      padding: 8px 10px;
+      padding: 9px 12px;
       border: none;
       border-radius: 8px;
       background: #111;
       color: white;
     }
 
-    nav {
+    .comment-list {
+      margin-top: 10px;
+    }
+
+    .comment {
+      background: #f1f1f1;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+
+    .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
+      height: 70px;
       background: white;
       border-top: 1px solid #ddd;
       display: flex;
       justify-content: space-around;
-      padding: 14px;
-      font-size: 24px;
-      z-index: 10;
-    }
-
-    nav button {
-      border: none;
-      background: none;
-      font-size: 24px;
-      cursor: pointer;
+      align-items: center;
+      font-size: 28px;
+      z-index: 20;
     }
   </style>
 </head>
@@ -139,133 +156,292 @@
 
   <main class="feed">
 
-    <div class="post">
+    <!-- POST 1 -->
+    <div class="post" data-post-id="1">
+
       <div class="user">👤 Vibely User</div>
 
       <div class="video">▶️</div>
 
       <div class="actions">
-        <button class="action-btn like-btn" onclick="likePost(this)">❤️</button>
-        <button class="action-btn" onclick="toggleComments(this)">💬</button>
-        <button class="action-btn" onclick="sharePost()">↗️</button>
-      </div>
 
-      <div class="comments">
-        <input type="text" placeholder="Write a comment...">
-        <button onclick="addComment(this)">Send</button>
-        <div class="comment-list"></div>
+        <button class="action-btn like-btn"
+                onclick="likePost(this)">
+          ❤️
+        </button>
+
+        <span class="like-count">0 likes</span>
+
+        <button class="action-btn"
+                onclick="toggleComments(this)">
+          💬
+        </button>
+
+        <button class="action-btn"
+                onclick="sharePost(this)">
+          ↗️
+        </button>
+
       </div>
 
       <div class="caption">
         Welcome to Vibely! 🎬✨
       </div>
+
+      <div class="comments">
+
+        <div>
+          <input type="text" placeholder="Write a comment...">
+          <button onclick="addComment(this)">Post</button>
+        </div>
+
+        <div class="comment-list"></div>
+
+      </div>
+
     </div>
 
-    <div class="post">
+
+    <!-- POST 2 -->
+    <div class="post" data-post-id="2">
+
       <div class="user">👤 Creator</div>
 
       <div class="video">🎥</div>
 
       <div class="actions">
-        <button class="action-btn like-btn" onclick="likePost(this)">❤️</button>
-        <button class="action-btn" onclick="toggleComments(this)">💬</button>
-        <button class="action-btn" onclick="sharePost()">↗️</button>
-      </div>
 
-      <div class="comments">
-        <input type="text" placeholder="Write a comment...">
-        <button onclick="addComment(this)">Send</button>
-        <div class="comment-list"></div>
+        <button class="action-btn like-btn"
+                onclick="likePost(this)">
+          ❤️
+        </button>
+
+        <span class="like-count">0 likes</span>
+
+        <button class="action-btn"
+                onclick="toggleComments(this)">
+          💬
+        </button>
+
+        <button class="action-btn"
+                onclick="sharePost(this)">
+          ↗️
+        </button>
+
       </div>
 
       <div class="caption">
         Share your vibe with the world! 🌎
       </div>
+
+      <div class="comments">
+
+        <div>
+          <input type="text" placeholder="Write a comment...">
+          <button onclick="addComment(this)">Post</button>
+        </div>
+
+        <div class="comment-list"></div>
+
+      </div>
+
     </div>
 
   </main>
 
-  <nav>
-    <button onclick="alert('Home')">🏠</button>
-    <button onclick="alert('Search')">🔍</button>
-    <button onclick="alert('Create')">➕</button>
-    <button onclick="alert('Likes')">❤️</button>
-    <button onclick="alert('Profile')">👤</button>
-  </nav>
+
+  <div class="bottom-nav">
+    <span>🏠</span>
+    <span>🔍</span>
+    <span>➕</span>
+    <span>❤️</span>
+    <span>👤</span>
+  </div>
+
 
   <script>
-  async function likePost(button) {
-  const post = button.closest(".post");
-  const posts = document.querySelectorAll(".post");
-  const postId = Array.from(posts).indexOf(post) + 1;
 
-  const { data, error } = await supabaseClient
-    .from("posts")
-    .select("likes")
-    .eq("id", postId)
-    .single();
+    // LOAD CURRENT LIKES
+    async function loadLikes() {
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+      const { data, error } = await supabaseClient
+        .from("posts")
+        .select("id, likes");
 
-  const currentlyLiked = button.classList.contains("liked");
-  const newLikes = currentlyLiked
-    ? Math.max((data.likes || 0) - 1, 0)
-    : (data.likes || 0) + 1;
-
-  const { error: updateError } = await supabaseClient
-    .from("posts")
-    .update({ likes: newLikes })
-    .eq("id", postId);
-
-  if (updateError) {
-    console.error(updateError);
-    return;
-  }
-
-  button.classList.toggle("liked");
-  }
-  
-    
-    
-
-    function toggleComments(button) {
-      const comments = button.closest(".post").querySelector(".comments");
-
-      comments.style.display =
-        comments.style.display === "block" ? "none" : "block";
-    }
-
-    function addComment(button) {
-      const box = button.closest(".comments");
-      const input = box.querySelector("input");
-      const list = box.querySelector(".comment-list");
-
-      if (input.value.trim() !== "") {
-        const comment = document.createElement("p");
-
-        comment.textContent = "💬 " + input.value;
-        comment.style.marginTop = "8px";
-
-        list.appendChild(comment);
-        input.value = "";
+      if (error) {
+        console.error("Load likes error:", error);
+        return;
       }
+
+      data.forEach(postData => {
+
+        const post = document.querySelector(
+          `.post[data-post-id="${postData.id}"]`
+        );
+
+        if (!post) return;
+
+        const count = post.querySelector(".like-count");
+
+        count.textContent =
+          (postData.likes || 0) + " likes";
+
+      });
     }
 
-    function sharePost() {
-      if (navigator.share) {
-        navigator.share({
-          title: "Vibely",
-          text: "Check out this vibe on Vibely!",
-          url: window.location.href
-        });
+
+    // LIKE / UNLIKE
+    async function likePost(button) {
+
+      const post = button.closest(".post");
+
+      const postId = Number(
+        post.dataset.postId
+      );
+
+      const count = post.querySelector(".like-count");
+
+      // Get current database value
+      const { data, error } = await supabaseClient
+        .from("posts")
+        .select("likes")
+        .eq("id", postId)
+        .single();
+
+      if (error) {
+        console.error("Read like error:", error);
+        alert("Like save nahi ho raha. Console error check karo.");
+        return;
+      }
+
+      const currentlyLiked =
+        button.classList.contains("liked");
+
+      let newLikes;
+
+      if (currentlyLiked) {
+        newLikes = Math.max(
+          (data.likes || 0) - 1,
+          0
+        );
       } else {
-        alert("Share feature is not supported on this browser.");
+        newLikes = (data.likes || 0) + 1;
       }
+
+
+      // Update Supabase
+      const { error: updateError } =
+        await supabaseClient
+          .from("posts")
+          .update({
+            likes: newLikes
+          })
+          .eq("id", postId);
+
+      if (updateError) {
+        console.error(
+          "Update like error:",
+          updateError
+        );
+
+        alert("Like database mein save nahi hua.");
+        return;
+      }
+
+
+      // Update screen ONLY after database success
+      button.classList.toggle("liked");
+
+      count.textContent =
+        newLikes + " likes";
+
     }
+
+
+    // COMMENTS OPEN / CLOSE
+    function toggleComments(button) {
+
+      const comments =
+        button.closest(".post")
+          .querySelector(".comments");
+
+      if (comments.style.display === "block") {
+        comments.style.display = "none";
+      } else {
+        comments.style.display = "block";
+      }
+
+    }
+
+
+    // ADD COMMENT
+    function addComment(button) {
+
+      const comments =
+        button.closest(".comments");
+
+      const input =
+        comments.querySelector("input");
+
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      const list =
+        comments.querySelector(".comment-list");
+
+      const newComment =
+        document.createElement("div");
+
+      newComment.className = "comment";
+
+      newComment.textContent =
+        "💬 " + text;
+
+      list.appendChild(newComment);
+
+      input.value = "";
+
+    }
+
+
+    // SHARE
+    async function sharePost(button) {
+
+      const post =
+        button.closest(".post");
+
+      const caption =
+        post.querySelector(".caption")
+          .textContent.trim();
+
+      if (navigator.share) {
+
+        try {
+
+          await navigator.share({
+            title: "Vibely",
+            text: caption,
+            url: window.location.href
+          });
+
+        } catch (error) {
+          console.log("Share cancelled");
+        }
+
+      } else {
+
+        alert("Share option is not supported on this browser.");
+
+      }
+
+    }
+
+
+    // LOAD LIKES WHEN PAGE OPENS
+    loadLikes();
+
   </script>
 
 </body>
-  </html>
+      </html>
