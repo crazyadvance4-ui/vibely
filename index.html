@@ -374,34 +374,37 @@
     }
 
 
-    // ADD COMMENT
-    function addComment(button) {
+    // ADD COMMENT 
+    async function addComment(button) {
 
-      const comments =
-        button.closest(".comments");
+  const comments = button.closest(".comments");
 
-      const input =
-        comments.querySelector("input");
+  const input = comments.querySelector("input");
+  const text = input.value.trim();
 
-      const text = input.value.trim();
+  if (!text) return;
 
-      if (!text) return;
+  const post = button.closest(".post");
+  const postId = Number(post.dataset.postId);
 
-      const list =
-        comments.querySelector(".comment-list");
+  const { error } = await supabaseClient
+    .from("comments")
+    .insert({
+      post_id: postId,
+      username: "Vibely User",
+      comment: text
+    });
 
-      const newComment =
-        document.createElement("div");
+  if (error) {
+    console.error("Comment error:", error);
+    alert("Comment save nahi hua.");
+    return;
+  }
 
-      newComment.className = "comment";
+  input.value = "";
 
-      newComment.textContent =
-        "💬 " + text;
-
-      list.appendChild(newComment);
-
-      input.value = "";
-
+  await loadComments(postId);
+        }
     }
 
 
