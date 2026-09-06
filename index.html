@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
 
   <script>
     const SUPABASE_URL = "https://uzggwbtibysgxyplyvoq.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_SSfmEuuSHJp0CNDnyVdFEg_qqXb2hat";
+
+    // Apni existing sb_publishable_... key yahan rakho
+    const SUPABASE_KEY = "YOUR_EXISTING_PUBLISHABLE_KEY";
 
     const supabaseClient = supabase.createClient(
       SUPABASE_URL,
@@ -20,6 +23,7 @@
   </script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -42,6 +46,57 @@
       position: sticky;
       top: 0;
       z-index: 10;
+    }
+
+    .upload-box {
+      max-width: 500px;
+      margin: 15px auto;
+      padding: 15px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px #ddd;
+    }
+
+    .upload-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .upload-box input[type="file"] {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .caption-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .upload-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .upload-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .upload-status {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
     }
 
     .feed {
@@ -72,6 +127,14 @@
       justify-content: center;
       color: white;
       font-size: 60px;
+      overflow: hidden;
+    }
+
+    .video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .actions {
@@ -147,38 +210,95 @@
       font-size: 28px;
       z-index: 20;
     }
+
   </style>
+
 </head>
 
 <body>
 
   <header>Vibely ✨</header>
 
+
+  <!-- UPLOAD VIDEO -->
+
+  <div class="upload-box">
+
+    <div class="upload-title">
+      🎥 Upload your vibe
+    </div>
+
+    <input
+      type="file"
+      id="videoInput"
+      accept="video/*"
+    >
+
+    <input
+      type="text"
+      id="captionInput"
+      class="caption-input"
+      placeholder="Write a caption..."
+    >
+
+    <button
+      class="upload-btn"
+      id="uploadBtn"
+      onclick="uploadVideo()"
+    >
+      📤 Upload Video
+    </button>
+
+    <div
+      id="uploadStatus"
+      class="upload-status"
+    ></div>
+
+  </div>
+
+
   <main class="feed">
 
+
     <!-- POST 1 -->
-    <div class="post" data-post-id="1">
 
-      <div class="user">👤 Vibely User</div>
+    <div
+      class="post"
+      data-post-id="1"
+    >
 
-      <div class="video">▶️</div>
+      <div class="user">
+        👤 Vibely User
+      </div>
+
+      <div class="video">
+        ▶️
+      </div>
 
       <div class="actions">
 
-        <button class="action-btn like-btn"
-                onclick="likePost(this)">
+        <button
+          class="action-btn like-btn"
+          onclick="likePost(this)"
+        >
           ❤️
         </button>
 
-        <span class="like-count">0 likes</span>
+        <span class="like-count">
+          0 likes
+        </span>
 
-        <button class="action-btn"
-                onclick="toggleComments(this)">
+        <button
+          class="action-btn"
+          onclick="toggleComments(this)"
+        >
           💬
         </button>
 
-        <button class="action-btn"
-                onclick="sharePost(this)">
+        <button
+          class="action-btn"
+          onclick="sharePost(this)"
+        >
           ↗️
         </button>
 
@@ -191,8 +311,16 @@
       <div class="comments">
 
         <div>
-          <input type="text" placeholder="Write a comment...">
-          <button onclick="addComment(this)">Post</button>
+
+          <input
+            type="text"
+            placeholder="Write a comment..."
+          >
+
+          <button onclick="addComment(this)">
+            Post
+          </button>
+
         </div>
 
         <div class="comment-list"></div>
@@ -203,28 +331,44 @@
 
 
     <!-- POST 2 -->
-    <div class="post" data-post-id="2">
 
-      <div class="user">👤 Creator</div>
+    <div
+      class="post"
+      data-post-id="2"
+    >
 
-      <div class="video">🎥</div>
+      <div class="user">
+        👤 Creator
+      </div>
+
+      <div class="video">
+        🎥
+      </div>
 
       <div class="actions">
 
-        <button class="action-btn like-btn"
-                onclick="likePost(this)">
+        <button
+          class="action-btn like-btn"
+          onclick="likePost(this)"
+        >
           ❤️
         </button>
 
-        <span class="like-count">0 likes</span>
+        <span class="like-count">
+          0 likes
+        </span>
 
-        <button class="action-btn"
-                onclick="toggleComments(this)">
+        <button
+          class="action-btn"
+          onclick="toggleComments(this)"
+        >
           💬
         </button>
 
-        <button class="action-btn"
-                onclick="sharePost(this)">
+        <button
+          class="action-btn"
+          onclick="sharePost(this)"
+        >
           ↗️
         </button>
 
@@ -237,8 +381,16 @@
       <div class="comments">
 
         <div>
-          <input type="text" placeholder="Write a comment...">
-          <button onclick="addComment(this)">Post</button>
+
+          <input
+            type="text"
+            placeholder="Write a comment..."
+          >
+
+          <button onclick="addComment(this)">
+            Post
+          </button>
+
         </div>
 
         <div class="comment-list"></div>
@@ -247,89 +399,127 @@
 
     </div>
 
+
   </main>
 
 
   <div class="bottom-nav">
+
     <span>🏠</span>
     <span>🔍</span>
     <span>➕</span>
     <span>❤️</span>
     <span>👤</span>
+
   </div>
 
 
   <script>
 
+
+    // =========================
     // LOAD CURRENT LIKES
+    // =========================
+
     async function loadLikes() {
 
-      const { data, error } = await supabaseClient
-        .from("posts")
-        .select("id, likes");
+      const { data, error } =
+        await supabaseClient
+          .from("posts")
+          .select("id, likes");
 
       if (error) {
-        console.error("Load likes error:", error);
+
+        console.error(
+          "Load likes error:",
+          error
+        );
+
         return;
       }
 
       data.forEach(postData => {
 
-        const post = document.querySelector(
-          `.post[data-post-id="${postData.id}"]`
-        );
+        const post =
+          document.querySelector(
+            `.post[data-post-id="${postData.id}"]`
+          );
 
         if (!post) return;
 
-        const count = post.querySelector(".like-count");
+        const count =
+          post.querySelector(".like-count");
 
         count.textContent =
           (postData.likes || 0) + " likes";
 
       });
+
     }
 
 
+    // =========================
     // LIKE / UNLIKE
+    // =========================
+
     async function likePost(button) {
 
-      const post = button.closest(".post");
+      const post =
+        button.closest(".post");
 
-      const postId = Number(
-        post.dataset.postId
-      );
+      const postId =
+        Number(post.dataset.postId);
 
-      const count = post.querySelector(".like-count");
+      const count =
+        post.querySelector(".like-count");
 
-      // Get current database value
-      const { data, error } = await supabaseClient
-        .from("posts")
-        .select("likes")
-        .eq("id", postId)
-        .single();
+
+      const { data, error } =
+        await supabaseClient
+          .from("posts")
+          .select("likes")
+          .eq("id", postId)
+          .single();
+
 
       if (error) {
-        console.error("Read like error:", error);
-        alert("Like save nahi ho raha. Console error check karo.");
+
+        console.error(
+          "Read like error:",
+          error
+        );
+
+        alert(
+          "Like save nahi ho raha."
+        );
+
         return;
       }
+
 
       const currentlyLiked =
         button.classList.contains("liked");
 
+
       let newLikes;
 
+
       if (currentlyLiked) {
-        newLikes = Math.max(
-          (data.likes || 0) - 1,
-          0
-        );
+
+        newLikes =
+          Math.max(
+            (data.likes || 0) - 1,
+            0
+          );
+
       } else {
-        newLikes = (data.likes || 0) + 1;
+
+        newLikes =
+          (data.likes || 0) + 1;
+
       }
 
 
-      // Update Supabase
       const { error: updateError } =
         await supabaseClient
           .from("posts")
@@ -338,148 +528,582 @@
           })
           .eq("id", postId);
 
+
       if (updateError) {
+
         console.error(
           "Update like error:",
           updateError
         );
 
-        alert("Like database mein save nahi hua.");
+        alert(
+          "Like database mein save nahi hua."
+        );
+
         return;
       }
 
 
-      // Update screen ONLY after database success
       button.classList.toggle("liked");
 
       count.textContent =
         newLikes + " likes";
 
     }
-// COMMENTS OPEN / CLOSE
-function toggleComments(button) {
-  const comments = button.closest(".post").querySelector(".comments");
-
-  if (comments.style.display === "block") {
-    comments.style.display = "none";
-  } else {
-    comments.style.display = "block";
-  }
-}
 
 
-// ADD COMMENT
-async function addComment(button) {
-  const comments = button.closest(".comments");
-  const input = comments.querySelector("input");
-  const text = input.value.trim();
+    // =========================
+    // COMMENTS OPEN / CLOSE
+    // =========================
 
-  if (!text) return;
+    function toggleComments(button) {
 
-  const post = button.closest(".post");
-  const postId = Number(post.dataset.postId);
-
-  const { error } = await supabaseClient
-    .from("comments")
-    .insert({
-      post_id: postId,
-      username: "Vibely User",
-      comment: text
-    });
-
-  if (error) {
-    console.error("Comment error:", error);
-    alert("Comment save nahi hua.");
-    return;
-  }
-
-  input.value = "";
-
-  await loadComments(postId);
-}
+      const comments =
+        button.closest(".post")
+          .querySelector(".comments");
 
 
-// LOAD COMMENTS
-async function loadComments(postId) {
-  const post = document.querySelector(
-    `.post[data-post-id="${postId}"]`
-  );
+      if (
+        comments.style.display === "block"
+      ) {
 
-  if (!post) return;
-
-  const list = post.querySelector(".comment-list");
-
-  if (!list) return;
-
-  const { data, error } = await supabaseClient
-    .from("comments")
-    .select("username, comment")
-    .eq("post_id", postId)
-    .order("created_at", { ascending: true });
-
-  if (error) {
-    console.error("Load comments error:", error);
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(item => {
-    const div = document.createElement("div");
-
-    div.className = "comment";
-
-    div.textContent =
-      "💬 " + item.username + ": " + item.comment;
-
-    list.appendChild(div);
-  });
-}
-
-
-// LOAD COMMENTS WHEN PAGE OPENS
-loadComments(1);
-loadComments(2);
-
-      
-  
-    // SHARE
-    async function sharePost(button) {
-
-      const post =
-        button.closest(".post");
-
-      const caption =
-        post.querySelector(".caption")
-          .textContent.trim();
-
-      if (navigator.share) {
-
-        try {
-
-          await navigator.share({
-            title: "Vibely",
-            text: caption,
-            url: window.location.href
-          });
-
-        } catch (error) {
-          console.log("Share cancelled");
-        }
+        comments.style.display =
+          "none";
 
       } else {
 
-        alert("Share option is not supported on this browser.");
+        comments.style.display =
+          "block";
 
       }
 
     }
 
 
+    // =========================
+    // ADD COMMENT
+    // =========================
+
+    async function addComment(button) {
+
+      const comments =
+        button.closest(".comments");
+
+      const input =
+        comments.querySelector("input");
+
+      const text =
+        input.value.trim();
+
+
+      if (!text) return;
+
+
+      const post =
+        button.closest(".post");
+
+      const postId =
+        Number(post.dataset.postId);
+
+
+      const { error } =
+        await supabaseClient
+          .from("comments")
+          .insert({
+
+            post_id: postId,
+
+            username: "Vibely User",
+
+            comment: text
+
+          });
+
+
+      if (error) {
+
+        console.error(
+          "Comment error:",
+          error
+        );
+
+        alert(
+          "Comment save nahi hua."
+        );
+
+        return;
+      }
+
+
+      input.value = "";
+
+      await loadComments(postId);
+
+    }
+
+
+    // =========================
+    // LOAD COMMENTS
+    // =========================
+
+    async function loadComments(postId) {
+
+      const post =
+        document.querySelector(
+          `.post[data-post-id="${postId}"]`
+        );
+
+
+      if (!post) return;
+
+
+      const list =
+        post.querySelector(".comment-list");
+
+
+      if (!list) return;
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("comments")
+          .select(
+            "username, comment"
+          )
+          .eq(
+            "post_id",
+            postId
+          )
+          .order(
+            "created_at",
+            {
+              ascending: true
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Load comments error:",
+          error
+        );
+
+        return;
+      }
+
+
+      list.innerHTML = "";
+
+
+      data.forEach(item => {
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+        div.className =
+          "comment";
+
+
+        div.textContent =
+          "💬 " +
+          item.username +
+          ": " +
+          item.comment;
+
+
+        list.appendChild(div);
+
+      });
+
+    }
+
+
+    // =========================
+    // UPLOAD VIDEO
+    // =========================
+
+    async function uploadVideo() {
+
+      const videoInput =
+        document.getElementById(
+          "videoInput"
+        );
+
+      const captionInput =
+        document.getElementById(
+          "captionInput"
+        );
+
+      const uploadBtn =
+        document.getElementById(
+          "uploadBtn"
+        );
+
+      const status =
+        document.getElementById(
+          "uploadStatus"
+        );
+
+
+      const file =
+        videoInput.files[0];
+
+
+      const caption =
+        captionInput.value.trim();
+
+
+      if (!file) {
+
+        alert(
+          "Pehle video select karo."
+        );
+
+        return;
+      }
+
+
+      if (
+        !file.type.startsWith("video/")
+      ) {
+
+        alert(
+          "Sirf video file select karo."
+        );
+
+        return;
+      }
+
+
+      uploadBtn.disabled = true;
+
+      status.textContent =
+        "⏳ Video upload ho raha hai...";
+
+
+      try {
+
+        /*
+          Unique file name
+          example:
+          172345678-video.mp4
+        */
+
+        const fileName =
+          Date.now() +
+          "-" +
+          file.name.replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+          );
+
+
+        // Upload to Supabase Storage
+
+        const { error: uploadError } =
+          await supabaseClient
+            .storage
+            .from("Videos")
+            .upload(
+              fileName,
+              file,
+              {
+                cacheControl: "3600",
+                upsert: false,
+                contentType: file.type
+              }
+            );
+
+
+        if (uploadError) {
+
+          console.error(
+            "Video upload error:",
+            uploadError
+          );
+
+          throw uploadError;
+        }
+
+
+        // Get public URL
+
+        const { data: publicData } =
+          supabaseClient
+            .storage
+            .from("Videos")
+            .getPublicUrl(fileName);
+
+
+        const videoUrl =
+          publicData.publicUrl;
+
+
+        // Save post in database
+
+        const { data: postData, error: postError } =
+          await supabaseClient
+            .from("posts")
+            .insert({
+
+              username: "Vibely User",
+
+              caption:
+                caption ||
+                "My new Vibely video 🎬✨",
+
+              likes: 0,
+
+              video_url: videoUrl
+
+            })
+            .select()
+            .single();
+
+
+        if (postError) {
+
+          console.error(
+            "Post save error:",
+            postError
+          );
+
+          throw postError;
+        }
+
+
+        status.textContent =
+          "✅ Video successfully uploaded!";
+
+
+        videoInput.value = "";
+
+        captionInput.value = "";
+
+
+        // Add new post to screen
+
+        addVideoPostToFeed(
+          postData
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+          "❌ Upload failed.";
+
+        alert(
+          "Video upload nahi hua. Console error check karo."
+        );
+
+      } finally {
+
+        uploadBtn.disabled = false;
+
+      }
+
+    }
+
+
+    // =========================
+    // ADD VIDEO POST TO FEED
+    // =========================
+
+    function addVideoPostToFeed(postData) {
+
+      const feed =
+        document.querySelector(".feed");
+
+
+      const post =
+        document.createElement("div");
+
+      post.className =
+        "post";
+
+      post.dataset.postId =
+        postData.id;
+
+
+      post.innerHTML = `
+
+        <div class="user">
+          👤 ${escapeHtml(postData.username)}
+        </div>
+
+        <div class="video">
+
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            src="${postData.video_url}"
+          ></video>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="action-btn like-btn"
+            onclick="likePost(this)"
+          >
+            ❤️
+          </button>
+
+          <span class="like-count">
+            ${postData.likes || 0} likes
+          </span>
+
+          <button
+            class="action-btn"
+            onclick="toggleComments(this)"
+          >
+            💬
+          </button>
+
+          <button
+            class="action-btn"
+            onclick="sharePost(this)"
+          >
+            ↗️
+          </button>
+
+        </div>
+
+        <div class="caption">
+          ${escapeHtml(
+            postData.caption ||
+            ""
+          )}
+        </div>
+
+        <div class="comments">
+
+          <div>
+
+            <input
+              type="text"
+              placeholder="Write a comment..."
+            >
+
+            <button
+              onclick="addComment(this)"
+            >
+              Post
+            </button>
+
+          </div>
+
+          <div class="comment-list"></div>
+
+        </div>
+
+      `;
+
+
+      feed.prepend(post);
+
+      loadComments(postData.id);
+
+    }
+
+
+    // =========================
+    // SECURITY HELPER
+    // =========================
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.textContent =
+        text || "";
+
+      return div.innerHTML;
+
+    }
+
+
+    // =========================
+    // SHARE
+    // =========================
+
+    async function sharePost(button) {
+
+      const post =
+        button.closest(".post");
+
+
+      const caption =
+        post.querySelector(
+          ".caption"
+        )
+          .textContent
+          .trim();
+
+
+      if (navigator.share) {
+
+        try {
+
+          await navigator.share({
+
+            title: "Vibely",
+
+            text: caption,
+
+            url:
+              window.location.href
+
+          });
+
+        } catch (error) {
+
+          console.log(
+            "Share cancelled"
+          );
+
+        }
+
+      } else {
+
+        alert(
+          "Share option is not supported on this browser."
+        );
+
+      }
+
+    }
+
+
+    // =========================
+    // LOAD COMMENTS WHEN PAGE OPENS
+    // =========================
+
+    loadComments(1);
+
+    loadComments(2);
+
+
+    // =========================
     // LOAD LIKES WHEN PAGE OPENS
+    // =========================
+
     loadLikes();
+
 
   </script>
 
 </body>
-      </html>
+
+          </html>
