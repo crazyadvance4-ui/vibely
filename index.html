@@ -919,3 +919,213 @@
     // =========================
     // ADD VIDEO POST TO FEED
     // =========================
+    
+function addVideoPostToFeed(postData) {
+
+  const feed = document.querySelector(".feed");
+
+  const post = document.createElement("div");
+
+  post.className = "post";
+
+  post.dataset.postId = postData.id;
+
+  post.innerHTML = `
+
+    <div class="user">
+      👤 ${escapeHtml(postData.username)}
+    </div>
+
+    <div class="video">
+
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        src="${postData.video_url}"
+      ></video>
+
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="action-btn like-btn"
+        onclick="likePost(this)"
+      >
+        ❤️
+      </button>
+
+      <span class="like-count">
+        ${postData.likes || 0} likes
+      </span>
+
+      <button
+        class="action-btn"
+        onclick="toggleComments(this)"
+      >
+        💬
+      </button>
+
+      <button
+        class="action-btn"
+        onclick="sharePost(this)"
+      >
+        ↗️
+      </button>
+
+    </div>
+
+    <div class="caption">
+      ${escapeHtml(postData.caption || "")}
+    </div>
+
+    <div class="comments">
+
+      <div>
+
+        <input
+          type="text"
+          placeholder="Write a comment..."
+        >
+
+        <button onclick="addComment(this)">
+          Post
+        </button>
+
+      </div>
+
+      <div class="comment-list"></div>
+
+    </div>
+
+  `;
+
+  feed.prepend(post);
+
+  loadComments(postData.id);
+}
+
+
+// =========================
+// LOAD ALL POSTS FROM SUPABASE
+// =========================
+
+async function loadPosts() {
+
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (error) {
+
+    console.error(
+      "Load posts error:",
+      error
+    );
+
+    return;
+  }
+
+  const feed =
+    document.querySelector(".feed");
+
+  // Purane hard-coded posts hatao
+  feed.innerHTML = "";
+
+  data.forEach(postData => {
+
+    // Sirf wahi posts dikhao jinke paas video hai
+    if (postData.video_url) {
+
+      addVideoPostToFeed(postData);
+
+    }
+
+  });
+
+}
+
+
+// =========================
+// SECURITY HELPER
+// =========================
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text || "";
+
+  return div.innerHTML;
+
+}
+
+
+// =========================
+// SHARE
+// =========================
+
+async function sharePost(button) {
+
+  const post =
+    button.closest(".post");
+
+  const caption =
+    post.querySelector(".caption")
+      .textContent
+      .trim();
+
+  if (navigator.share) {
+
+    try {
+
+      await navigator.share({
+
+        title: "Vibely",
+
+        text: caption,
+
+        url: window.location.href
+
+      });
+
+    } catch (error) {
+
+      console.log(
+        "Share cancelled"
+      );
+
+    }
+
+  } else {
+
+    alert(
+      "Share option is not supported on this browser."
+    );
+
+  }
+
+}
+
+
+// =========================
+// LOAD POSTS / COMMENTS / LIKES
+// =========================
+
+loadPosts();
+
+loadComments(1);
+
+loadComments(2);
+
+loadLikes();
+
+</script>
+
+</body>
+
+</html>
