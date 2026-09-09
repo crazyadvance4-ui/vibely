@@ -461,7 +461,26 @@
 
   loadProfileStats();
     }
-    
+    async function loadProfileStats() {
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("likes, video_url, username")
+    .eq("username", "Vibely User");
+
+  if (error) {
+    console.error("Profile stats error:", error);
+    return;
+  }
+
+  const profilePosts = document.getElementById("profilePosts");
+  const profileLikes = document.getElementById("profileLikes");
+
+  profilePosts.textContent =
+    data.filter(post => post.video_url).length;
+
+  profileLikes.textContent =
+    data.reduce((total, post) => total + (post.likes || 0), 0);
+      }
 
 
     // =========================
