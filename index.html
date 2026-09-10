@@ -1063,7 +1063,8 @@ function addVideoPostToFeed(postData) {
 
   `;
 
-  feed.prepend(post);
+  feed.insertBefore(post,
+ feed.firstChild);
 
   loadComments(postData.id);
 }
@@ -1078,7 +1079,7 @@ async function loadPosts() {
   const { data, error } = await supabaseClient
     .from("posts")
     .select("*")
-    .order("id", { ascending: false });
+    .order("id", { ascending: true });
 
   if (error) {
 
