@@ -425,7 +425,11 @@
   <script>
     async function openSearch() {
   const feed = document.querySelector(".feed");
+const uploadBox = document.querySelector(".upload-box");
 
+if (uploadBox) {
+  uploadBox.style.display = "none";
+}
   feed.innerHTML = `
     <div class="post" style="padding:20px;">
       <h2>🔍 Search Vibely</h2>
