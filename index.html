@@ -423,6 +423,79 @@
 
 
   <script>
+    async function openSearch() {
+  const feed = document.querySelector(".feed");
+
+  feed.innerHTML = `
+    <div class="post" style="padding:20px;">
+      <h2>🔍 Search Vibely</h2>
+
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search users or videos..."
+        oninput="runSearch(this.value)"
+        style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;"
+      >
+
+      <div id="searchResults" style="margin-top:15px;">
+        Search something...
+      </div>
+    </div>
+  `;
+}
+
+async function runSearch(value) {
+  const results = document.getElementById("searchResults");
+
+  if (!results) return;
+
+  const query = value.trim().toLowerCase();
+
+  if (!query) {
+    results.innerHTML = "Search something...";
+    return;
+  }
+
+  results.innerHTML = "Searching...";
+
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("username, caption, video_url, likes")
+    .order("id", { ascending: false });
+
+  if (error) {
+    results.innerHTML = "Search error";
+    console.error(error);
+    return;
+  }
+
+  const matches = data.filter(post =>
+    `${post.username || ""} ${post.caption || ""}`
+      .toLowerCase()
+      .includes(query)
+  );
+
+  if (!matches.length) {
+    results.innerHTML = "Kuch nahi mila 😕";
+    return;
+  }
+
+  results.innerHTML = matches.map(post => `
+    <div class="post" style="margin-top:15px;">
+      <b>${post.username || "Vibely User"}</b>
+      <p>${post.caption || ""}</p>
+
+      ${
+        post.video_url
+          ? `<video src="${post.video_url}" controls style="width:100%;border-radius:10px;"></video>`
+          : ""
+      }
+
+      <p>❤️ ${post.likes || 0} likes</p>
+    </div>
+  `).join("");
+}
     function openProfile() {
   const feed = document.querySelector(".feed");
 
