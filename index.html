@@ -1153,7 +1153,12 @@ function addVideoPostToFeed(postData) {
 // =========================
 
 async function loadPosts() {
+  const uploadBox =
+    document.querySelector(".upload-box");
 
+  if (uploadBox) {
+    uploadBox.style.display = "block";
+    }
   const { data, error } = await supabaseClient
     .from("posts")
     .select("*")
