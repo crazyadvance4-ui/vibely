@@ -222,7 +222,7 @@
 
   <!-- UPLOAD VIDEO -->
 
-  <div class="upload-box">
+  <div class="upload-box" id="uploadBox">
 
     <div class="upload-title">
       🎥 Upload your vibe
@@ -425,7 +425,7 @@
 
   <script>
     function openUpload() {
-  const uploadBox = document.querySelector(".upload-box");
+  const uploadBox = document.getElementById("uploadBox");
 
   if (uploadBox) {
     uploadBox.style.display = "block";
