@@ -1215,7 +1215,7 @@ async function loadPosts() {
     document.querySelector(".upload-box");
 
   if (uploadBox) {
-    uploadBox.style.display = "block";
+    uploadBox.style.display = "none";
     }
   const { data, error } = await supabaseClient
     .from("posts")
