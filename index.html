@@ -545,8 +545,45 @@ async function runSearch(value) {
   `;
 
   loadProfileStats();
-    }
     loadProfileVideos();
+      {
+        async function loadProfileVideos() {
+  const feed = document.querySelector(".feed");
+
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("id, username, caption, video_url, likes")
+    .eq("username", "Vibely User")
+    .order("id", { ascending: false });
+
+  if (error) {
+    console.error("Profile videos error:", error);
+    return;
+  }
+
+  const videos = data.filter(post => post.video_url);
+
+  videos.forEach(post => {
+    const videoPost = document.createElement("div");
+
+    videoPost.className = "post";
+
+    videoPost.innerHTML = `
+      <div style="font-weight:bold;">${post.username}</div>
+      <p>${post.caption || ""}</p>
+
+      <video
+        src="${post.video_url}"
+        controls
+        style="width:100%; border-radius:12px;">
+      </video>
+
+      <div>❤️ ${post.likes || 0}</div>
+    `;
+
+    feed.appendChild(videoPost);
+  });
+        }
     async function loadProfileStats() {
   const { data, error } = await supabaseClient
     .from("posts")
