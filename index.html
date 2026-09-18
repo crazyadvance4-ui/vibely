@@ -546,6 +546,7 @@ async function runSearch(value) {
 
   loadProfileStats();
     }
+    loadProfileVideos();
     async function loadProfileStats() {
   const { data, error } = await supabaseClient
     .from("posts")
