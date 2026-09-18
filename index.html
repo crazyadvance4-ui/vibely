@@ -501,6 +501,12 @@ async function runSearch(value) {
   `).join("");
 }
     function openProfile() {
+        const uploadBox =
+          document.querySelector(".upload-box");
+
+  if (uploadBox) {
+    uploadBox.style.display = "none";
+  }
   const feed = document.querySelector(".feed");
 
   feed.innerHTML = `
