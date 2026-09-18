@@ -424,6 +424,14 @@
 
 
   <script>
+    function openUpload() {
+  const uploadBox = document.querySelector(".upload-box");
+
+  if (uploadBox) {
+    uploadBox.style.display = "block";
+    uploadBox.scrollIntoView({ behavior: "smooth" });
+  }
+    }
     async function openSearch() {
   const feed = document.querySelector(".feed");
 const uploadBox = document.querySelector(".upload-box");
