@@ -427,18 +427,15 @@
     function openUpload() {
   const uploadBox = document.getElementById("uploadBox");
 
-  if (typeof loadPosts === "function") {
-    loadPosts();
-  }
-
   if (uploadBox) {
     uploadBox.style.display = "block";
 
     setTimeout(() => {
       uploadBox.scrollIntoView({ behavior: "smooth" });
-    }, 300);
+    }, 100);
   }
     }
+    
   
     async function openSearch() {
   const feed = document.querySelector(".feed");
