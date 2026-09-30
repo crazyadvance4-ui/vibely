@@ -452,13 +452,13 @@
     function openUpload() {
   const uploadBox = document.getElementById("uploadBox");
 
-  if (uploadBox) {
-    uploadBox.style.display = "block";
-
-    setTimeout(() => {
-      uploadBox.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+  if (!uploadBox) {
+    alert("Upload box nahi mila");
+    return;
   }
+
+  uploadBox.style.display = "block";
+  window.scrollTo(0, 0);
     }
     
   
